@@ -22,23 +22,26 @@ def save_bulletin(file_name):
     else:
         inputpdf = PdfReader(open(file_name, "rb"))
 
-        for i in range(0, 6):
+        for i in range(0, 2):
             writer = PdfWriter()
             writer.add_page(inputpdf.pages[i])
             with open("%s-page%s.pdf" % (file_name, i), "wb") as output_pdf:
                 writer.write(output_pdf)
 
-        # Merge the split PDF files
-        merge_pdf = PdfMerger()
+def merge_pdf(file_name):
+    # Merge the split PDF files
+    merge_pdf = PdfMerger()
 
-        for i in range(0, 6):
-            merge_pdf.append(open("%s-page%s.pdf" % (file_name, i), "rb"))
+    for i in range(0, 2):
+        merge_pdf.append(open("%s-page%s.pdf" % (file_name, i), "rb"))
 
-        with open("merged_%s" % file_name, "wb") as output_pdf:
-            merge_pdf.write(output_pdf)
+    with open("merged_%s" % file_name, "wb") as output_pdf:
+        merge_pdf.write(output_pdf)
 
 if __name__ == '__main__':
     # bulletins = read_bulletins()
     # b = get_bulletin(30030654, bulletins)
-    save_bulletin("bulletins_paie.pdf")
+    file_name = "bulletins_paie.pdf"
+    save_bulletin(file_name)
+    merge_pdf(file_name)
     # print(b)
