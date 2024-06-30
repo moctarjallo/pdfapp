@@ -23,6 +23,11 @@ class Bulletins():
             if self.get_matricule(i) == matricule:
                 return page
 
+    def get_page(self, page_num):
+        for i, page in enumerate(self.pages):
+            if i == page_num-1:
+                return page
+
     def save_bulletin(self, page, file_name):
         writer = PdfWriter()
         writer.add_page(page)
@@ -46,6 +51,14 @@ def get_bulletin_use_case():
     b = bulletins.get_bulletin(30030925)
     bulletins.save_bulletin(b, "30030925.pdf")
 
+def get_page_use_case():
+    file_name = "bulletins_paie.pdf"
+    page_num = 20
+    bulletins = Bulletins(file_name)
+    b = bulletins.get_page(page_num)
+    bulletins.save_bulletin(b, f"{page_num}.pdf")
+
 if __name__ == '__main__':
     # main()
-    get_bulletin_use_case()
+    # get_bulletin_use_case()
+    get_page_use_case()
