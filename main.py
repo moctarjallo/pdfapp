@@ -40,7 +40,7 @@ class Bulletins():
             self.save_bulletin(self.pages[i], f"{matricule}.pdf")
         self.__in_f.close()
 
-def main():
+def save_bulletins_use_case():
     file_name = "bulletins_paie.pdf"
     bulletins = Bulletins(file_name, 3)
     bulletins.save_bulletins()
@@ -48,8 +48,9 @@ def main():
 def get_bulletin_use_case():
     file_name = "bulletins_paie.pdf"
     bulletins = Bulletins(file_name)
-    b = bulletins.get_bulletin(30030925)
-    bulletins.save_bulletin(b, "30030925.pdf")
+    matricule = 30030944
+    b = bulletins.get_bulletin(matricule)
+    bulletins.save_bulletin(b, f"{matricule}.pdf")
 
 def get_page_use_case():
     file_name = "bulletins_paie.pdf"
@@ -59,6 +60,6 @@ def get_page_use_case():
     bulletins.save_bulletin(b, f"{page_num}.pdf")
 
 if __name__ == '__main__':
-    # main()
+    save_bulletins_use_case()
     # get_bulletin_use_case()
-    get_page_use_case()
+    # get_page_use_case()
