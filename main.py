@@ -16,17 +16,18 @@ def read_bulletins():
 def get_bulletin(matricule, bulletins):
     return [bulletin for bulletin in bulletins if bulletin.get(matricule)][0]
 
-def save_bulletin(file_name):
-    if not os.path.isfile(file_name):
-        print(f"The file {file_name} does not exist.")
-    else:
-        inputpdf = PdfReader(open(file_name, "rb"))
+def save_bulletin(page, file_name):
+    writer = PdfWriter()
+    writer.add_page(page)
+    with open("%s-page.pdf" % (file_name), "wb") as output_pdf:
+        writer.write(output_pdf)
 
+def save_bulletins(file_name):
+    with open(file_name, "rb") as in_f:
+        pages = PdfReader(in_f).pages
         for i in range(0, 2):
-            writer = PdfWriter()
-            writer.add_page(inputpdf.pages[i])
-            with open("%s-page%s.pdf" % (file_name, i), "wb") as output_pdf:
-                writer.write(output_pdf)
+            page = pages[i]
+            save_bulletin(page, f"{file_name}-{i}")
 
 def merge_pdf(file_name):
     # Merge the split PDF files
@@ -42,6 +43,6 @@ if __name__ == '__main__':
     # bulletins = read_bulletins()
     # b = get_bulletin(30030654, bulletins)
     file_name = "bulletins_paie.pdf"
-    save_bulletin(file_name)
-    merge_pdf(file_name)
+    save_bulletins(file_name)
+    # merge_pdf(file_name)
     # print(b)
