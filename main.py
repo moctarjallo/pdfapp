@@ -1,5 +1,5 @@
 import os
-from PyPDF2 import PdfWriter, PdfReader, PdfMerger
+from PyPDF2 import PdfWriter, PdfReader
 
 
 def get_matricule(page):
@@ -20,20 +20,9 @@ def save_bulletin(page, file_name):
 def save_bulletins(file_name):
     with open(file_name, "rb") as in_f:
         pages = PdfReader(in_f).pages
-        for i in range(0, 3):
-            page = pages[i]
+        for page in pages[:3]:
             matricule = get_matricule(page)
             save_bulletin(page, f"{matricule}")
-
-def merge_pdf(file_name):
-    # Merge the split PDF files
-    merge_pdf = PdfMerger()
-
-    for i in range(0, 2):
-        merge_pdf.append(open("%s-page%s.pdf" % (file_name, i), "rb"))
-
-    with open("merged_%s" % file_name, "wb") as output_pdf:
-        merge_pdf.write(output_pdf)
 
 def main():
     file_name = "bulletins_paie.pdf"
