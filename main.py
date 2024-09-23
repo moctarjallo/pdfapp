@@ -1,3 +1,5 @@
+import os
+
 from payment import Bulletins
 from messaging import Media
 
@@ -29,9 +31,24 @@ def send_pdf_use_case():
         "vHOxtE94pSdsiG6rIuulfKmxbltfAaS"
     ).send("notification_conge.pdf", "221771332916", "Bon conges!")
 
+def send_bulletin_use_case():
+    file_name = "bulletins_paie.pdf"
+    bulletins = Bulletins(file_name)
+    matricule = 30030944
+    b = bulletins.get_bulletin(matricule)
+    bulletins.save_bulletin(b, f"{matricule}.pdf")
+    Media(458857697302383, 
+        "EAAMfJJStAz4BOZCknQ0VUznrDXTEKNPKwXJhnae2V1HfTv3"
+        "ghtgM4NEDfQI4JuxfVDofOUeM7qojXC6NvczKlaXE6T7EY8Q"
+        "YZBggn4TvWC8VxopgpFdZCc4uv8fjwUnodwSujMMEG4oZARR"
+        "NW4jt0D2O0i22wotbLIq0HZCKjp7KTHqohEZBdTHm2Bavoh8"
+        "vHOxtE94pSdsiG6rIuulfKmxbltfAaS"
+    ).send(f"{matricule}.pdf", "221771332916")
+    os.remove(f"{matricule}.pdf")
 
 if __name__ == '__main__':
     # save_bulletins_use_case()
     # get_bulletin_use_case()
     # get_page_use_case()
-    send_pdf_use_case()
+    # send_pdf_use_case()
+    send_bulletin_use_case()
