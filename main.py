@@ -53,9 +53,29 @@ def send_bulletin_to_num_use_case():
         media.send(f"{matricule}.pdf", telephone)
         os.remove(f"{matricule}.pdf")
 
+def send_bulletin_with_excel_use_case():
+    file_name = "bulletins_paie.pdf"
+    bulletins = Bulletins(file_name)
+    df = pd.read_excel('recipients.xlsx')
+    matricules = df['Matricule']
+    for matricule in matricules:
+        b = bulletins.get_bulletin(matricule)
+        bulletins.save_bulletin(b, f"{matricule}.pdf")
+    media = Media(458857697302383, 
+        "EAAMfJJStAz4BOyGj6je0WNiTYkeZAmNGutiDfy89K5q"
+        "YGfViUNZA6DUpV6nzzZCRr748Ew6woUZCGSwn9FAsxSn"
+        "flB7eO9NXEkNpDdjJh5jtHRlg7izrGK5mXIMVWzdZCWz"
+        "tSJb8PEHNn9d5Ba8R27uimuLfnOAxqWlDeIBuaqL1vzM"
+        "CCXs1HZCVDjVcAm6k5t0Qxb39XUuWrSTUIplEAxflg4yHYZD"
+    )
+    for matricule, telephone in zip(df['Matricule'], df['Telephone'].str.replace(' ', '')):
+        media.send(f"{matricule}.pdf", telephone)
+        os.remove(f"{matricule}.pdf")
+
 if __name__ == '__main__':
     # save_bulletins_use_case()
     # get_bulletin_use_case()
     # get_page_use_case()
     # send_pdf_use_case()
-    send_bulletin_use_case()
+    # send_bulletin_use_case()
+    send_bulletin_with_excel_use_case()
