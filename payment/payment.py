@@ -22,11 +22,14 @@ class Bulletins():
         for i, page in enumerate(self.pages):
             if self.get_matricule(i) == matricule:
                 return page
+        raise Exception(f"Matricule {matricule} is not found.")
 
     def get_page(self, page_num):
         for i, page in enumerate(self.pages):
             if i == page_num-1:
                 return page
+        raise Exception(f"Page {page_num} is not found.")
+        
 
     def save_bulletin(self, page, file_name):
         writer = PdfWriter()
@@ -39,3 +42,13 @@ class Bulletins():
             matricule = self.get_matricule(i)
             self.save_bulletin(self.pages[i], f"{matricule}.pdf")
         self.__in_f.close()
+
+
+class Leave(Bulletins):
+    def get_matricule(self, i):
+        page = self.pages[i]
+        page_text = page.extract_text()
+        ligne_matricule = page_text.split('\n')[14]
+        matricule_pos = ligne_matricule.split().index('Mle:')
+        matricule = int(ligne_matricule.split()[matricule_pos+1])
+        return matricule
