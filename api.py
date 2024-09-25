@@ -5,7 +5,7 @@ from messaging import Media
 import pandas as pd
 
 PHONE_NUMBER_ID = 458857697302383
-ACCESS_TOKEN = "EAAMfJJStAz4BO1jK7bLJEAZAkRUoi729WVGRQ8616DUUeGC27HtOZBYgf9AV9owa7zA0l3WkmZAkTgkfhZA9f8XgvdqS54WqUOo3ICx9ivtA5Q3xrYM6M6ZCk6N2Ms5xA00g4NES2n8rZAARV1iCYxX4kmPQqh4ZCSvk6KVVJeKV1QZCICE4LZCGzCgzTmZArMQONqCkNiSZA9UTCgDyesbxPTti9Ifp4YZD"
+ACCESS_TOKEN = "EAAMfJJStAz4BO10Xyc4sMeEqPVr8njV8heHoRLZCxJSUNC6NgITHDg7IzAdcmGWJEvyemsHRrtDAsnz2X76lZAlLGxZAyrFZBZCCUE6gn0aqU7MnemOy2agV2IfGLQiP50r81vPlYy5s1YpKHYZAI4cNLVY7VBZCcc3kZBSBo6zd9DgpX4aLCznzyy0ZBP5em9ZAlDgWqe5nWI585rZCRjRn8OZBLsscbeQZD"
 
 """
 Add these 3 general and separated use cases:
@@ -43,6 +43,6 @@ def send(folder_name, excel_path):
         media.send(f"{folder_name}/{matricule}.pdf", telephone)
 
 if __name__ == '__main__':
-    generate('C:\\Users\\HP\kajande\\frontend\\python\\api\\pdfapp\\notification_conge.pdf', 'recipients.xlsx')
-    # send('leaves', 'recipients.xlsx', delete=True)
+    # generate('C:\\Users\\HP\kajande\\frontend\\python\\api\\pdfapp\\notification_conge.pdf', 'recipients.xlsx')
+    send('notification_conge', 'recipients.xlsx')
     # delete('notification_conge')

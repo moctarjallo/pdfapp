@@ -21,7 +21,6 @@ class Media:
 
         if response.status_code == 200:
             media_id = response.json().get("id")
-            print(f"Media uploaded successfully, media ID: {media_id}")
         else:
             print(f"Failed to upload media: {response.status_code}")
             print(response.text)
@@ -31,7 +30,11 @@ class Media:
 
     def send(self, media_path, destination_phone_number, message="Bonne reception."):
 
-        media_id = self.__upload(media_path)
+        print(f"Sending document.. {media_path}")
+        try:
+            media_id = self.__upload(media_path)
+        except Exception:
+            return
 
         url = f"https://graph.facebook.com/v20.0/{self.phone_number_id}/messages"
         headers = {
@@ -52,7 +55,7 @@ class Media:
 
         response = requests.post(url, headers=headers, json=data)
 
-        print("Media sent successfully !")
+        print("Document sent successfully !")
 
         self.__delete(media_id)
 
@@ -64,9 +67,9 @@ class Media:
         response = requests.delete(delete_url, headers=headers)
 
         if response.status_code == 200:
-            print("Media deleted successfully!")
+            pass
         else:
-            print(f"Failed to delete media: {response.status_code}, {response.text}")
+            print(f"Failed to delete media: {response.status_code}, {response.text} ID: {media_id}")
 
 if __name__ == "__main__":
 
