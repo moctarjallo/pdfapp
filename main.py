@@ -83,11 +83,27 @@ def send_bulletin_with_excel_use_case():
         media.send(f"{matricule}.pdf", telephone)
         os.remove(f"{matricule}.pdf")
 
+
+def send_leave_with_excel_use_case():
+    file_name = "notification_conge.pdf"
+    leaves = Leave(file_name)
+    df = pd.read_excel('recipients.xlsx')
+    matricules = df['Matricule']
+    for matricule in matricules:
+        b = leaves.get_bulletin(matricule)
+    media = Media(458857697302383, ACCESS_TOKEN)
+        leaves.save_bulletin(b, f"{matricule}.pdf")
+    for matricule, telephone in zip(df['Matricule'], df['Telephone'].str.replace(' ', '')):
+        media.send(f"{matricule}.pdf", telephone)
+        os.remove(f"{matricule}.pdf")
+
+
 if __name__ == '__main__':
     # save_bulletins_use_case()
     # get_bulletin_use_case()
     # get_page_use_case()
     # send_pdf_use_case()
     # send_bulletin_to_num_use_case()
-    send_leave_to_num_use_case()
+    # send_leave_to_num_use_case()
     # send_bulletin_with_excel_use_case()
+    send_leave_with_excel_use_case()
