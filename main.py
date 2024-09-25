@@ -2,8 +2,10 @@ import os
 
 import pandas as pd
 
-from payment import Bulletins
+from payment import Bulletins, Leave
 from messaging import Media
+
+ACCESS_TOKEN = "EAAMfJJStAz4BO7hIDdqCy4BVuc4fb59EYQKZCSgoNdKFwnZCs4PTjfHOSzCWCN3892NsTZCA21uKzQOmaXZB5YdSPXhgEmXa0ZAHVdp2YIHBZBk0ZBN2NVheNy6Gfu1hMftUklFYrXFbc8ZA6szWr733RPcFXG9EgozOIqwPZBR8R66CyG7d6uD7CMfworXCdX4QBHPZA8lfEK1rUzK3LKRgaiR9ZAqaocZD"
 
 def save_bulletins_use_case():
     file_name = "bulletins_paie.pdf"
@@ -42,13 +44,22 @@ def send_bulletin_to_num_use_case():
     for matricule in matricules:
         b = bulletins.get_bulletin(matricule)
         bulletins.save_bulletin(b, f"{matricule}.pdf")
-    media = Media(458857697302383, 
-        "EAAMfJJStAz4BOyGj6je0WNiTYkeZAmNGutiDfy89K5q"
-        "YGfViUNZA6DUpV6nzzZCRr748Ew6woUZCGSwn9FAsxSn"
-        "flB7eO9NXEkNpDdjJh5jtHRlg7izrGK5mXIMVWzdZCWz"
-        "tSJb8PEHNn9d5Ba8R27uimuLfnOAxqWlDeIBuaqL1vzM"
-        "CCXs1HZCVDjVcAm6k5t0Qxb39XUuWrSTUIplEAxflg4yHYZD"
-    )
+    media = Media(458857697302383, ACCESS_TOKEN)
+    for matricule in matricules:
+        media.send(f"{matricule}.pdf", telephone)
+        os.remove(f"{matricule}.pdf")
+
+
+def send_leave_to_num_use_case():
+    file_name = "notification_conge.pdf"
+    leaves = Leave(file_name)
+    telephone = '+221778577500'
+    df = pd.read_excel('recipients.xlsx')
+    matricules = df[df['Telephone'].str.replace(" ", "") == telephone]['Matricule'].tolist()
+    for matricule in matricules:
+        b = leaves.get_bulletin(matricule)
+        leaves.save_bulletin(b, f"{matricule}.pdf")
+    media = Media(458857697302383, ACCESS_TOKEN)
     for matricule in matricules:
         media.send(f"{matricule}.pdf", telephone)
         os.remove(f"{matricule}.pdf")
@@ -77,5 +88,6 @@ if __name__ == '__main__':
     # get_bulletin_use_case()
     # get_page_use_case()
     # send_pdf_use_case()
-    # send_bulletin_use_case()
-    send_bulletin_with_excel_use_case()
+    # send_bulletin_to_num_use_case()
+    send_leave_to_num_use_case()
+    # send_bulletin_with_excel_use_case()

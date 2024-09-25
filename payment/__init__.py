@@ -1,1 +1,1 @@
-from .payment import Bulletins
+from .payment import Bulletins, Leave
