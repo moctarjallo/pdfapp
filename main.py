@@ -98,6 +98,28 @@ def send_leave_with_excel_use_case():
         os.remove(f"{matricule}.pdf")
 
 
+"""
+Add these 3 general and separated use cases:
+backend:
+    1. generate(folder_name, excel_path) -> generates the PDF out of the EXCEL definitions
+                RETURNS a folder of all generated files
+    2. send(folder_name, excel_path) -> send the previously generate folder 
+                RETURNS a progress bar (tqdm?)
+    3. delete(folder_name, excel_path) -> deletes all files in folder, based on excel params
+                RETURNS progress bar (tqdm?)
+
+frontend:
+    1. Add 2 columns to excel file: 
+        - Document: specifies the path to the pdf document to be processed
+        - Delete: boolean specifying if the corresponding generated file should be deleted
+    2. Add buttons:
+        - GENERATE
+        - SEND
+        - DELETE
+        - GENERATE - SEND - DELETE
+"""
+
+
 if __name__ == '__main__':
     # save_bulletins_use_case()
     # get_bulletin_use_case()
