@@ -91,8 +91,8 @@ def send_leave_with_excel_use_case():
     matricules = df['Matricule']
     for matricule in matricules:
         b = leaves.get_bulletin(matricule)
-    media = Media(458857697302383, ACCESS_TOKEN)
         leaves.save_bulletin(b, f"{matricule}.pdf")
+    media = Media(458857697302383, ACCESS_TOKEN)
     for matricule, telephone in zip(df['Matricule'], df['Telephone'].str.replace(' ', '')):
         media.send(f"{matricule}.pdf", telephone)
         os.remove(f"{matricule}.pdf")
@@ -127,5 +127,5 @@ if __name__ == '__main__':
     # send_pdf_use_case()
     # send_bulletin_to_num_use_case()
     # send_leave_to_num_use_case()
-    # send_bulletin_with_excel_use_case()
-    send_leave_with_excel_use_case()
+    send_bulletin_with_excel_use_case()
+    # send_leave_with_excel_use_case()
