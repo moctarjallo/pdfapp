@@ -1,11 +1,11 @@
 from pathlib import Path
-from payment import Leave
+from document import Payslip, Leave
 from messaging import Media
 
 import pandas as pd
 
 PHONE_NUMBER_ID = 458857697302383
-ACCESS_TOKEN = "EAAMfJJStAz4BO10Xyc4sMeEqPVr8njV8heHoRLZCxJSUNC6NgITHDg7IzAdcmGWJEvyemsHRrtDAsnz2X76lZAlLGxZAyrFZBZCCUE6gn0aqU7MnemOy2agV2IfGLQiP50r81vPlYy5s1YpKHYZAI4cNLVY7VBZCcc3kZBSBo6zd9DgpX4aLCznzyy0ZBP5em9ZAlDgWqe5nWI585rZCRjRn8OZBLsscbeQZD"
+ACCESS_TOKEN = "EAAMfJJStAz4BO4xyKx5JnEiwVsX2HTtaLtyZARDqjwOlV0B1veYMYmp2DTzO6kdnjKcphvYo6GIHZCtTZApYgVfdxo7B9q5f4OQJ3oV9ZAjNt4dR98fIwfyeb4U3Uc9HzopIzqZCkxZBJ8gqR3g0t4OjxZB4kNMSk9IAFzh36uosqVEv4Sz4u72XcOPE58d1i991FZBgUksbA7aKzgSyL8CWC8hZAbdcZD"
 
 """
 Add these 3 general and separated use cases:
@@ -26,9 +26,9 @@ def generate(pdf_path, excel_path):
     leaves = Leave(pdf_path)
     df = pd.read_excel(excel_path)
     for matricule in df['Matricule']:
-        b = leaves.get_bulletin(matricule)
+        b = leaves.get_page_by_matricule(matricule)
         file = Path(f"{folder}/{matricule}.pdf")
-        leaves.save_bulletin(b, file)
+        leaves.save_to_pdf(b, file)
 
 def delete(folder_name):
     folder = Path(folder_name)

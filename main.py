@@ -7,24 +7,24 @@ from messaging import Media
 
 ACCESS_TOKEN = "EAAMfJJStAz4BO7hIDdqCy4BVuc4fb59EYQKZCSgoNdKFwnZCs4PTjfHOSzCWCN3892NsTZCA21uKzQOmaXZB5YdSPXhgEmXa0ZAHVdp2YIHBZBk0ZBN2NVheNy6Gfu1hMftUklFYrXFbc8ZA6szWr733RPcFXG9EgozOIqwPZBR8R66CyG7d6uD7CMfworXCdX4QBHPZA8lfEK1rUzK3LKRgaiR9ZAqaocZD"
 
-def save_bulletins_use_case():
+def save_to_pdfs_use_case():
     file_name = "bulletins_paie.pdf"
     bulletins = Bulletins(file_name, 3)
-    bulletins.save_bulletins()
+    bulletins.save_to_pdfs()
 
-def get_bulletin_use_case():
+def get_page_by_matricule_use_case():
     file_name = "bulletins_paie.pdf"
     bulletins = Bulletins(file_name)
     matricule = 30030944
-    b = bulletins.get_bulletin(matricule)
-    bulletins.save_bulletin(b, f"{matricule}.pdf")
+    b = bulletins.get_page_by_matricule(matricule)
+    bulletins.save_to_pdf(b, f"{matricule}.pdf")
 
 def get_page_use_case():
     file_name = "bulletins_paie.pdf"
     page_num = 20
     bulletins = Bulletins(file_name)
-    b = bulletins.get_page(page_num)
-    bulletins.save_bulletin(b, f"{page_num}.pdf")
+    b = bulletins.get_page_by_num(page_num)
+    bulletins.save_to_pdf(b, f"{page_num}.pdf")
 
 def send_pdf_use_case():
     Media(458857697302383, 
@@ -42,8 +42,8 @@ def send_bulletin_to_num_use_case():
     df = pd.read_excel('recipients.xlsx')
     matricules = df[df['Telephone'].str.replace(" ", "") == telephone]['Matricule'].tolist()
     for matricule in matricules:
-        b = bulletins.get_bulletin(matricule)
-        bulletins.save_bulletin(b, f"{matricule}.pdf")
+        b = bulletins.get_page_by_matricule(matricule)
+        bulletins.save_to_pdf(b, f"{matricule}.pdf")
     media = Media(458857697302383, ACCESS_TOKEN)
     for matricule in matricules:
         media.send(f"{matricule}.pdf", telephone)
@@ -57,8 +57,8 @@ def send_leave_to_num_use_case():
     df = pd.read_excel('recipients.xlsx')
     matricules = df[df['Telephone'].str.replace(" ", "") == telephone]['Matricule'].tolist()
     for matricule in matricules:
-        b = leaves.get_bulletin(matricule)
-        leaves.save_bulletin(b, f"{matricule}.pdf")
+        b = leaves.get_page_by_matricule(matricule)
+        leaves.save_to_pdf(b, f"{matricule}.pdf")
     media = Media(458857697302383, ACCESS_TOKEN)
     for matricule in matricules:
         media.send(f"{matricule}.pdf", telephone)
@@ -70,8 +70,8 @@ def send_bulletin_with_excel_use_case():
     df = pd.read_excel('recipients.xlsx')
     matricules = df['Matricule']
     for matricule in matricules:
-        b = bulletins.get_bulletin(matricule)
-        bulletins.save_bulletin(b, f"{matricule}.pdf")
+        b = bulletins.get_page_by_matricule(matricule)
+        bulletins.save_to_pdf(b, f"{matricule}.pdf")
     media = Media(458857697302383, 
         "EAAMfJJStAz4BOyGj6je0WNiTYkeZAmNGutiDfy89K5q"
         "YGfViUNZA6DUpV6nzzZCRr748Ew6woUZCGSwn9FAsxSn"
@@ -90,8 +90,8 @@ def send_leave_with_excel_use_case():
     df = pd.read_excel('recipients.xlsx')
     matricules = df['Matricule']
     for matricule in matricules:
-        b = leaves.get_bulletin(matricule)
-        leaves.save_bulletin(b, f"{matricule}.pdf")
+        b = leaves.get_page_by_matricule(matricule)
+        leaves.save_to_pdf(b, f"{matricule}.pdf")
     media = Media(458857697302383, ACCESS_TOKEN)
     for matricule, telephone in zip(df['Matricule'], df['Telephone'].str.replace(' ', '')):
         media.send(f"{matricule}.pdf", telephone)
@@ -112,8 +112,8 @@ frontend:
 
 
 if __name__ == '__main__':
-    # save_bulletins_use_case()
-    # get_bulletin_use_case()
+    # save_to_pdfs_use_case()
+    # get_page_by_matricule_use_case()
     # get_page_use_case()
     # send_pdf_use_case()
     # send_bulletin_to_num_use_case()
