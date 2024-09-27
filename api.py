@@ -18,17 +18,20 @@ backend:
                 RETURNS progress bar (tqdm?)
 """
 
-def generate_folder(pdf_path, excel_path):
+def generate_folder(pdf_path, excel_path, mode="leave"):
     folder_name = Path(pdf_path).stem
     folder = Path(folder_name)
     if not folder.exists():
         folder.mkdir()
-    leaves = Leave(pdf_path)
+    if mode == "leave":
+        document = Leave(pdf_path)
+    elif mode == "pay":
+        document = Payslip(pdf_path)
     df = pd.read_excel(excel_path)
     for matricule in df['Matricule']:
-        b = leaves.get_page_by_matricule(matricule)
+        b = document.get_page_by_matricule(matricule)
         file = Path(f"{folder}/{matricule}.pdf")
-        leaves.save_to_pdf(b, file)
+        document.save_to_pdf(b, file)
     return folder_name
 
 def delete_folder(folder_name):
@@ -43,12 +46,12 @@ def send_folder(folder_name, excel_path):
     for matricule, telephone in zip(df['Matricule'], df['Telephone'].str.replace(' ', '')):
         media.send(f"{folder_name}/{matricule}.pdf", telephone)
 
-def send(pdf_path, excel_path, generate=True, delete=True):
+def send(pdf_path, excel_path, generate=True, delete=True, mode='leave'):
     """
     pdf_path: either a path to a pdf file or a folder containing individual pdfs
     """
     if generate:
-        folder_name = generate_folder(pdf_path, excel_path)
+        folder_name = generate_folder(pdf_path, excel_path, mode)
     else:
         folder_name = pdf_path
     send_folder(folder_name, excel_path)

@@ -17,19 +17,20 @@ def run():
     parser.add_argument('--excel')
     parser.add_argument('--generate', type=int, default=1)
     parser.add_argument('--delete', type=int, default=1)
+    parser.add_argument('--mode', type=str, default='leave')
 
 
     args = parser.parse_args()
 
 
     if args.command == 'generate_folder':
-        api.generate_folder(args.pdf, args.excel)
+        api.generate_folder(args.pdf, args.excel, args.mode)
     elif args.command == 'send_folder':
         api.send_folder(args.folder, args.excel)
     elif args.command == 'delete_folder':
         api.delete_folder(args.folder)
     elif args.command == 'send':
-        api.send(args.pdf, args.excel, args.generate, args.delete)
+        api.send(args.pdf, args.excel, args.generate, args.delete, args.mode)
 
 
 

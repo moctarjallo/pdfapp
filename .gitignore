@@ -1,4 +1,5 @@
 *.pdf
+*.xlsx
 Pipfile
 Pipfile.lock
 
