@@ -15,10 +15,14 @@ class Document():
         raise NotImplemented("You should override and implement this method.")
 
     def get_page_by_matricule(self, matricule):
-        for i, page in enumerate(self.pages):
-            if self.get_matricule(i) == matricule:
-                return page
-        raise Exception(f"Matricule {matricule} is not found.")
+        pages = []
+        try:
+            for i, page in enumerate(self.pages):
+                if self.get_matricule(i) == matricule:
+                    pages.append(page)
+            return pages
+        except Exception:
+            raise Exception(f"Matricule {matricule} is not found.")
 
     def get_page_by_num(self, page_num):
         for i, page in enumerate(self.pages):
@@ -26,14 +30,16 @@ class Document():
                 return page
         raise Exception(f"Page {page_num} is not found.")
 
-    def save_to_pdf(self, page, file_name):
+    def save_to_pdf(self, pages, file_name):
+        print(f"Generating {file_name}")
         writer = PdfWriter()
-        writer.add_page(page)
+        for page in pages:
+            writer.add_page(page)
         with open(f"{file_name}", "wb") as output_pdf:
             writer.write(output_pdf)
 
     def save_pages_to_pdf(self):
         for i in range(len(self)):
             matricule = self.get_matricule(i)
-            self.save_to_pdf(self.pages[i], f"{matricule}.pdf")
+            self.save_to_pdf([self.pages[i]], f"{matricule}.pdf")
         self.__in_f.close()
