@@ -2,6 +2,7 @@
 *.xlsx
 Pipfile
 Pipfile.lock
+LICENSE.chromedriver
 
 #official python gitignore
 # Byte-compiled / optimized / DLL files
